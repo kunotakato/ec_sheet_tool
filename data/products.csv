@@ -1,0 +1,8 @@
+item_name,item_price,availability,item_url,shop_name,item_code
+ワイヤレスイヤホン 10000mAh 軽量モデル,2980,1,https://example.com/item001,サンプルショップA,sample-shop-a:item001
+ワイヤレスイヤホン 急速充電モデル,3980,1,https://example.com/item002,サンプルショップB,sample-shop-b:item002
+ワイヤレスイヤホン コンパクトモデル,2480,0,https://example.com/item003,サンプルショップC,sample-shop-c:item003
+モバイルバッテリー 大容量モデル,4580,1,https://example.com/item004,サンプルショップD,sample-shop-d:item004
+モバイルバッテリー 軽量モデル,3280,1,https://example.com/item005,サンプルショップE,sample-shop-e:item005
+ノートPC 14インチ ベーシックモデル,79800,1,https://example.com/item006,サンプルショップF,sample-shop-f:item006
+ノートPC 15インチ ハイスペックモデル,119800,0,https://example.com/item007,サンプルショップG,sample-shop-g:item007

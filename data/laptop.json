@@ -1,0 +1,67 @@
+{
+    "count": 113,
+    "page": 1,
+    "first": 1,
+    "last": 1,
+    "hits": 1,
+    "carrier": 0,
+    "pageCount": 100,
+    "Items": [
+      {
+        "itemName": "モニター台 モニタースタンド アクリル素材 透明 クリア モニターテーブル モニター台 机上ラック ノートパソコン台 キーボード収納 ラック デスク収納 液晶モニター台 PCラック 省スペース 机上ラック ノートパソコン収納 机上台 作業台 シンプル 在宅 テレワーク",
+        "catchcopy": "モニタースタンド 目線を上げて正しい姿勢を保つ モニター台 机",
+        "itemCode": "csbeauty:10015441",
+        "itemPrice": 3380,
+        "itemPriceBaseField": "item_price_min3",
+        "itemPriceMax1": 3870,
+        "itemPriceMax2": 3870,
+        "itemPriceMax3": 3870,
+        "itemPriceMin1": 3380,
+        "itemPriceMin2": 3380,
+        "itemPriceMin3": 3380,
+        "itemCaption": "",
+        "itemUrl": "https://item.rakuten.co.jp/csbeauty/1ss21/?rafcid=wsc_i_is_afe0eb66-19b0-4a7f-9283-4e0c76066f29",
+        "shopUrl": "https://www.rakuten.co.jp/csbeauty/?rafcid=wsc_i_is_afe0eb66-19b0-4a7f-9283-4e0c76066f29",
+        "smallImageUrls": [
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_1.jpg?_ex=64x64",
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_2.jpg?_ex=64x64",
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_3.jpg?_ex=64x64"
+        ],
+        "mediumImageUrls": [
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_1.jpg?_ex=128x128",
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_2.jpg?_ex=128x128",
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/csbeauty/cabinet/47/1ss21_3.jpg?_ex=128x128"
+        ],
+        "affiliateUrl": "",
+        "shopAffiliateUrl": "",
+        "imageFlag": 1,
+        "availability": 1,
+        "taxFlag": 0,
+        "postageFlag": 0,
+        "creditCardFlag": 1,
+        "shopOfTheYearFlag": 0,
+        "shipOverseasFlag": 0,
+        "shipOverseasArea": "",
+        "asurakuFlag": 0,
+        "asurakuClosingTime": "",
+        "asurakuArea": "",
+        "affiliateRate": 4,
+        "startTime": "",
+        "endTime": "",
+        "reviewCount": 0,
+        "reviewAverage": 0,
+        "pointRate": 1,
+        "pointRateStartTime": "",
+        "pointRateEndTime": "",
+        "giftFlag": 0,
+        "shopName": "CSビューティ 楽天市場支店",
+        "shopCode": "csbeauty",
+        "genreId": "206471",
+        "tagIds": [
+          1016062
+        ]
+      }
+    ],
+    "GenreInformation": [],
+    "TagInformation": []
+  }

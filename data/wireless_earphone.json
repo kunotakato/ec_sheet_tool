@@ -1,0 +1,61 @@
+{
+    "count": 2,
+    "page": 1,
+    "first": 1,
+    "last": 1,
+    "hits": 1,
+    "carrier": 0,
+    "pageCount": 2,
+    "Items": [
+      {
+        "itemName": "新品 ワイヤレスイヤホン 重低音 高音質 Bluetooth5.2 ワイヤレスイヤホン イヤホン ブルートゥース",
+        "catchcopy": "",
+        "itemCode": "rapassione:10613349",
+        "itemPrice": 8580,
+        "itemPriceBaseField": "item_price_min3",
+        "itemPriceMax1": 8580,
+        "itemPriceMax2": 8580,
+        "itemPriceMax3": 8580,
+        "itemPriceMin1": 8580,
+        "itemPriceMin2": 8580,
+        "itemPriceMin3": 8580,
+        "itemCaption": "サイズ・容量 規格原産国 中国注意事項",
+        "itemUrl": "https://item.rakuten.co.jp/rapassione/30640370/",
+        "shopUrl": "https://www.rakuten.co.jp/rapassione/",
+        "smallImageUrls": [
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/rapassione/cabinet/imgm2/306403/30640370-1.jpg?_ex=64x64"
+        ],
+        "mediumImageUrls": [
+          "https://thumbnail.image.rakuten.co.jp/@0_mall/rapassione/cabinet/imgm2/306403/30640370-1.jpg?_ex=128x128"
+        ],
+        "affiliateUrl": "",
+        "shopAffiliateUrl": "",
+        "imageFlag": 1,
+        "availability": 1,
+        "taxFlag": 0,
+        "postageFlag": 1,
+        "creditCardFlag": 1,
+        "shopOfTheYearFlag": 0,
+        "shipOverseasFlag": 0,
+        "shipOverseasArea": "",
+        "asurakuFlag": 0,
+        "asurakuClosingTime": "",
+        "asurakuArea": "",
+        "affiliateRate": 4,
+        "startTime": "",
+        "endTime": "",
+        "reviewCount": 0,
+        "reviewAverage": 0,
+        "pointRate": 1,
+        "pointRateStartTime": "",
+        "pointRateEndTime": "",
+        "giftFlag": 0,
+        "shopName": "ドレミファソラ・ねこ",
+        "shopCode": "rapassione",
+        "genreId": "303656",
+        "tagIds": []
+      }
+    ],
+    "GenreInformation": [],
+    "TagInformation": []
+  }

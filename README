@@ -1,0 +1,55 @@
+# EC商品データ取得・加工・Googleスプレッドシート保存ツール
+
+## 概要
+このプロジェクトは、ECサイトの商品データを取得し、必要な項目に加工したうえで、Googleスプレッドシートへ保存するプロトタイプです。
+
+今回の完成版では、楽天APIの自動直取得はアクセス制御の都合で未解決のため、**楽天API Test Formで取得したJSONデータを読み込み、Googleスプレッドシートへ保存する方式**で実装しています。
+
+## 目的
+- EC商品データを定期的に管理・分析するための土台を作る
+- 商品名、価格、在庫状況などを一覧管理できるようにする
+- 将来的に楽天APIや他ECサイトAPIへ接続しやすい設計にする
+
+## 現在の完成範囲
+このプロトタイプで実現できていることは以下の通りです。
+
+- Google Sheets API を使ってスプレッドシートへ保存できる
+- `settings` シートから検索キーワードを読み込める
+- 複数のJSONファイルから商品データを読み込める
+- 商品データを整形して `raw_data` シートへ追記できる
+- 楽天API Test Formで取得した実データを利用できる
+
+## 未対応・今後の拡張
+- 楽天APIからの自動直取得
+- 定期実行
+- 価格変動通知
+- 在庫変化通知
+- ダッシュボード化
+
+---
+
+## 使用技術
+- Python
+- Google Sheets API
+- OAuth認証
+- JSONファイル
+- 楽天API Test Form（データ取得元として利用）
+
+---
+
+## フォルダ構成
+```text
+ec_sheet_tool/
+├── app.py
+├── config.py
+├── rakuten_client.py
+├── sheets_client.py
+├── normalizer.py
+├── requirements.txt
+├── .env
+├── credentials.json
+├── token.json
+└── data/
+    ├── wireless_earphone.json
+    ├── mobile_battery.json
+    └── laptop.json
