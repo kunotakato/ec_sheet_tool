@@ -3,7 +3,7 @@ import os
 
 import requests
 from flask import Flask, jsonify, request  # pyright: ignore[reportMissingImports]
-from config import get_settings
+from config import get_fetch_settings
 
 app = Flask(__name__)
 
@@ -24,13 +24,13 @@ def health():
 @app.route("/fetch")
 def fetch_items():
     try:
-        settings = get_settings()
+        settings = get_fetch_settings()  # pyright: ignore[reportUndefinedVariable]
 
         keyword = request.args.get("keyword", "").strip()
         if not keyword:
             return jsonify({"error": "keyword is required"}), 400
 
-        endpoint = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601"
+        endpoint = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401"
 
         params = {
             "applicationId": settings.rakuten_application_id,
@@ -43,7 +43,7 @@ def fetch_items():
         }
 
         headers = {
-            "Authorization": f"Bearer {settings.rakuten_access_key}",
+            "accessKey": settings.rakuten_access_key,
             "Referer": request.host_url,
             "User-Agent": "Mozilla/5.0",
         }
@@ -63,9 +63,10 @@ def fetch_items():
         return jsonify({
             "status_code": response.status_code,
             "sent_headers": {
-                "Referer": request.host_url
+                "Referer": request.host_url,
+                "accessKey": "***masked***",
             },
-            "response_json": response_json
+            "response_json": response_json,
         }), response.status_code
 
     except Exception as e:
