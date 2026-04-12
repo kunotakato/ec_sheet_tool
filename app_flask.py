@@ -26,10 +26,33 @@ def health():
 
 @app.route("/fetch")
 def fetch_items():
-    return {
-        "message": "fetch route reached successfully",
-        "keyword": request.args.get("keyword", "")
+    settings = get_settings()
+
+    keyword = request.args.get("keyword", "").strip()
+    if not keyword:
+        return jsonify({"error": "keyword is required"}), 400
+
+    endpoint = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20220601"
+
+    params = {
+        "applicationId": settings.rakuten_application_id,
+        "accessKey": settings.rakuten_access_key,
+        "keyword": keyword,
+        "hits": 1,
+        "format": "json",
+        "formatVersion": 2,
+        "availability": 0,
+        "elements": "itemName,itemPrice,availability,itemUrl,shopName,itemCode",
     }
+
+    response = requests.get(endpoint, params=params, timeout=settings.request_timeout)
+
+    return jsonify({
+        "status_code": response.status_code,
+        "request_url": response.url,
+        "response_json": response.json()
+    }), response.status_code
+    
     if not keyword:
         return jsonify({"error": "keyword is required"}), 400
 
