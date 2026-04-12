@@ -29,7 +29,7 @@ def get_settings() -> Settings:
         google_token_file=os.getenv("GOOGLE_TOKEN_FILE", "token.json").strip(),
         settings_sheet_name=os.getenv("SETTINGS_SHEET_NAME", "settings").strip(),
         raw_data_sheet_name=os.getenv("RAW_DATA_SHEET_NAME", "raw_data").strip(),
-        request_timeout=int(os.getenv("REQUEST_TIMEOUT", "20")),
+        request_timeout=int(os.getenv("REQUEST_TIMEOUT") or "20"),
     )
 
     missing = []
