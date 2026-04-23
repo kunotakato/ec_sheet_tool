@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return {
-        "message": "Rakuten Flask app is running on Render.",
+        "message": "Rakuten Flask minimal app is running.",
         "usage": "/fetch?keyword=ワイヤレスイヤホン"
     }
 
@@ -24,7 +24,7 @@ def health():
 @app.route("/fetch")
 def fetch_items():
     try:
-        settings = get_fetch_settings()  # pyright: ignore[reportUndefinedVariable]
+        settings = get_fetch_settings()
 
         keyword = request.args.get("keyword", "").strip()
         if not keyword:
@@ -32,8 +32,12 @@ def fetch_items():
 
         endpoint = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401"
 
+        origin = "https://ec-sheet-tool.onrender.com"
+        referer = "https://ec-sheet-tool.onrender.com/"
+
         params = {
             "applicationId": settings.rakuten_application_id,
+            "accessKey": settings.rakuten_access_key,
             "keyword": keyword,
             "hits": 1,
             "format": "json",
@@ -43,8 +47,8 @@ def fetch_items():
         }
 
         headers = {
-            "accessKey": settings.rakuten_access_key,
-            "Referer": request.host_url,
+            "Origin": origin,
+            "Referer": referer,
             "User-Agent": "Mozilla/5.0",
         }
 
@@ -63,8 +67,8 @@ def fetch_items():
         return jsonify({
             "status_code": response.status_code,
             "sent_headers": {
-                "Referer": request.host_url,
-                "accessKey": "***masked***",
+                "Origin": origin,
+                "Referer": referer,
             },
             "response_json": response_json,
         }), response.status_code
@@ -75,7 +79,7 @@ def fetch_items():
             "error": "internal_server_error",
             "detail": str(e)
         }), 500
-        
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)

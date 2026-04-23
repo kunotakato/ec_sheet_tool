@@ -29,17 +29,3 @@ def get_fetch_settings() -> FetchSettings:
         rakuten_access_key=access_key,
         request_timeout=request_timeout,
     )
-
-    missing = []
-    if not settings.rakuten_application_id:
-        missing.append("RAKUTEN_APPLICATION_ID")
-    if not settings.rakuten_access_key:
-        missing.append("RAKUTEN_ACCESS_KEY")
-    if not settings.spreadsheet_id:
-        missing.append("SPREADSHEET_ID")
-
-    if missing:
-        joined = ", ".join(missing)
-        raise ValueError(f".env に未設定の項目があります: {joined}")
-
-    return settings
