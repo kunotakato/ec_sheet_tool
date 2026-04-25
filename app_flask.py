@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import requests
-from flask import Flask, jsonify, request  # pyright: ignore[reportMissingImports]
+from flask import Flask, jsonify, request
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
@@ -15,22 +15,32 @@ app = Flask(__name__)
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
+# Render の公開URLに合わせて固定
+ORIGIN = "https://ec-sheet-tool.onrender.com"
+REFERER = "https://ec-sheet-tool.onrender.com/"
+
 
 def get_sheets_service(google_service_account_json: str):
+    """
+    Render の環境変数 GOOGLE_SERVICE_ACCOUNT_JSON に入れた
+    サービスアカウントJSON文字列から Sheets API クライアントを作る
+    """
     service_account_info = json.loads(google_service_account_json)
+
     credentials = Credentials.from_service_account_info(
         service_account_info,
         scopes=SCOPES,
     )
+
     service = build("sheets", "v4", credentials=credentials)
     return service
 
 
 def fetch_rakuten_items(settings, keyword: str) -> tuple[int, dict[str, Any]]:
+    """
+    楽天APIから商品データを取得する
+    """
     endpoint = "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401"
-
-    origin = request.host_url.rstrip("/")
-    referer = request.host_url
 
     params = {
         "applicationId": settings.rakuten_application_id,
@@ -44,8 +54,8 @@ def fetch_rakuten_items(settings, keyword: str) -> tuple[int, dict[str, Any]]:
     }
 
     headers = {
-        "Origin": origin,
-        "Referer": referer,
+        "Origin": ORIGIN,
+        "Referer": REFERER,
         "User-Agent": "Mozilla/5.0",
     }
 
@@ -65,6 +75,9 @@ def fetch_rakuten_items(settings, keyword: str) -> tuple[int, dict[str, Any]]:
 
 
 def extract_items(response_json: dict[str, Any]) -> list[dict[str, Any]]:
+    """
+    楽天APIレスポンスから items / Items を安全に取り出す
+    """
     items = response_json.get("items") or response_json.get("Items") or []
     if not isinstance(items, list):
         return []
@@ -72,6 +85,11 @@ def extract_items(response_json: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def build_row(keyword: str, item: dict[str, Any]) -> list[Any]:
+    """
+    raw_data シートに保存する1行を作る
+    列順:
+    fetched_at, keyword, item_name, item_price, availability, item_url, shop_name, item_code
+    """
     fetched_at = datetime.now(timezone.utc).isoformat()
 
     return [
@@ -87,9 +105,13 @@ def build_row(keyword: str, item: dict[str, Any]) -> list[Any]:
 
 
 def append_row_to_sheet(settings, row: list[Any]) -> dict[str, Any]:
+    """
+    Google Sheets の raw_data シートへ1行追加する
+    """
     service = get_sheets_service(settings.google_service_account_json)
 
     body = {"values": [row]}
+
     result = (
         service.spreadsheets()
         .values()
@@ -102,6 +124,7 @@ def append_row_to_sheet(settings, row: list[Any]) -> dict[str, Any]:
         )
         .execute()
     )
+
     return result
 
 
@@ -111,12 +134,40 @@ def index():
         "message": "Rakuten Flask app is running on Render.",
         "usage_fetch": "/fetch?keyword=ワイヤレスイヤホン",
         "usage_fetch_and_save": "/fetch-and-save?keyword=ワイヤレスイヤホン",
+        "usage_routes": "/routes",
+        "usage_env_check": "/env-check",
     }
 
 
 @app.route("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.route("/routes")
+def routes():
+    return {
+        "routes": sorted([str(rule) for rule in app.url_map.iter_rules()])
+    }
+
+
+@app.route("/env-check")
+def env_check():
+    try:
+        settings = get_fetch_and_save_settings()
+        return {
+            "has_RAKUTEN_APPLICATION_ID": bool(settings.rakuten_application_id),
+            "has_RAKUTEN_ACCESS_KEY": bool(settings.rakuten_access_key),
+            "has_SPREADSHEET_ID": bool(settings.spreadsheet_id),
+            "has_GOOGLE_SERVICE_ACCOUNT_JSON": bool(settings.google_service_account_json),
+            "request_timeout": settings.request_timeout,
+            "raw_data_sheet_name": settings.raw_data_sheet_name,
+        }
+    except Exception as e:
+        return {
+            "error": "env_check_failed",
+            "detail": str(e),
+        }, 500
 
 
 @app.route("/fetch")
@@ -133,8 +184,8 @@ def fetch_items():
         return jsonify({
             "status_code": status_code,
             "sent_headers": {
-                "Origin": request.host_url.rstrip("/"),
-                "Referer": request.host_url,
+                "Origin": ORIGIN,
+                "Referer": REFERER,
             },
             "response_json": response_json,
         }), status_code
@@ -158,12 +209,13 @@ def fetch_and_save():
 
         status_code, response_json = fetch_rakuten_items(settings, keyword)
 
+        # 楽天API側が失敗した場合は、そのまま返す
         if status_code != 200:
             return jsonify({
                 "status_code": status_code,
                 "sent_headers": {
-                    "Origin": request.host_url.rstrip("/"),
-                    "Referer": request.host_url,
+                    "Origin": ORIGIN,
+                    "Referer": REFERER,
                 },
                 "response_json": response_json,
             }), status_code
@@ -172,10 +224,11 @@ def fetch_and_save():
         if not items:
             return jsonify({
                 "error": "no_items_found",
-                "detail": "楽天APIのレスポンスに items / Items がありませんでした。",
+                "detail": "楽天APIレスポンスに items / Items が見つかりませんでした。",
                 "response_json": response_json,
             }), 404
 
+        # まずは1件だけ保存
         item = items[0]
         row = build_row(keyword, item)
         append_result = append_row_to_sheet(settings, row)
