@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request  # pyright: ignore[reportMissingImports]
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 
@@ -136,8 +136,8 @@ def index():
         "usage_fetch_and_save": "/fetch-and-save?keyword=ワイヤレスイヤホン",
         "usage_routes": "/routes",
         "usage_env_check": "/env-check",
+        "usage_whoami": "/whoami",
     }
-
 
 @app.route("/health")
 def health():
@@ -254,3 +254,13 @@ def fetch_and_save():
             "error": "internal_server_error",
             "detail": str(e),
         }), 500
+
+@app.route("/whoami")
+def whoami():
+    settings = get_fetch_and_save_settings()
+    info = json.loads(settings.google_service_account_json)
+    return {
+        "client_email": info.get("client_email", ""),
+        "spreadsheet_id": settings.spreadsheet_id,
+        "sheet_name": settings.raw_data_sheet_name,
+    }
